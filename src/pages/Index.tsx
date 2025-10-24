@@ -14,7 +14,7 @@ interface Message {
   timestamp: Date;
 }
 
-const WEBHOOK_URL = "https://auld-fernando-heteronomously.ngrok-free.dev";
+const WEBHOOK_URL = "https://auld-fernando-heteronomously.ngrok-free.dev/webhook-test/17b71044-e141-4931-8a90-8163405c923c";
 
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([]);
