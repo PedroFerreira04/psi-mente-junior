@@ -54,10 +54,16 @@ const Index = () => {
         throw new Error("Erro ao enviar mensagem");
       }
 
-      const data = await response.json();
+      const text = await response.text();
+      
+      if (!text || text.trim() === '') {
+        throw new Error("Resposta vazia do servidor");
+      }
+
+      const data = JSON.parse(text);
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.response || data.message || "Desculpe, não recebi uma resposta válida.",
+        content: data.output || data.response || data.message || "Desculpe, não recebi uma resposta válida.",
         isUser: false,
         timestamp: new Date(),
       };
@@ -67,7 +73,7 @@ const Index = () => {
       console.error("Erro:", error);
       toast({
         title: "Erro ao enviar mensagem",
-        description: "Não foi possível conectar com o assistente. Tente novamente.",
+        description: error instanceof Error ? error.message : "Não foi possível conectar com o assistente. Tente novamente.",
         variant: "destructive",
       });
     } finally {
